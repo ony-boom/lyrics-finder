@@ -1,0 +1,25 @@
+.button-wrapper {
+  width: max-content;
+  display: inline-block;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  height: 4.2rem;
+  padding: 0 1em;
+  cursor: pointer;
+  border-radius: 8px;
+  font-family: inherit;
+  transition: all .3s;
+
+  &:disabled {
+    cursor: default;
+    opacity: .8;
+  }
+
+  &--primary {
+    background-color: $color-primary;
+    color: $color-white-200;
+  }
+}
