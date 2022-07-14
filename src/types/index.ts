@@ -1,2 +1,2 @@
-export type { ButtonProps, ContextSearch } from "./propsTypes";
-export type { SongData } from "./apiResponse";
+export * from "./propsTypes";
+export * from "./apiResponse";

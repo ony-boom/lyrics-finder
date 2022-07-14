@@ -1,5 +1,5 @@
-interface MetaData<T> {
-  type: T | string;
+interface MetaData<T extends string> {
+  type: T;
   id: string;
   name: string;
   shareUrl: string;
@@ -8,8 +8,8 @@ interface MetaData<T> {
 interface SongData extends MetaData<"track"> {
   status: boolean;
   durationMs: number;
-  duartionText: string;
-  artist: SongArtist[];
+  durationText: string;
+  artists: SongArtist[];
   album: SongAlbum;
   lyrics: SongLyrics[];
 }
@@ -18,8 +18,14 @@ interface SongArtist extends MetaData<"artist"> {
   nickname?: string;
 }
 
+interface Cover {
+  url: string,
+  width: number,
+  height: number
+}
+
 interface SongAlbum extends MetaData<"album"> {
-  cover: object[];
+  cover: Cover[];
 }
 
 interface SongLyrics {
@@ -28,4 +34,4 @@ interface SongLyrics {
   text: string;
 }
 
-export type { SongData };
+export type { SongData, SongLyrics };
