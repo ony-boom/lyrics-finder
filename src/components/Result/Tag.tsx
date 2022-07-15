@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from "react";
 import { MetaDataProps } from "../../types";
 import Bio from "./Bio";
-import getVibrant from "../../helpers/colors";
+import getDominantColor, { getTextColor } from "../../helpers/colors";
 
 const Tag: React.FC<MetaDataProps> = ({
   name,
@@ -10,8 +10,10 @@ const Tag: React.FC<MetaDataProps> = ({
   album,
 }) => {
   const imageEl = React.useRef<HTMLImageElement>(null);
-  const [colors, setColors] = React.useState("");
-
+  const [colors, setColors] = React.useState<{
+    dominant: string;
+    text: string;
+  }>();
   const cover = album.cover[album.cover.length - 1] || album.cover[0];
   const artistName = artists[0].name;
 
@@ -19,13 +21,15 @@ const Tag: React.FC<MetaDataProps> = ({
     console.log("downloading");
   };
 
-  const handleImageLoad = async () => {
-    const vibrantColor = await getVibrant(imageEl.current!);
-    if (vibrantColor) {
-      setColors(vibrantColor);
-    }
-  }
-
+  const handleImageLoad = () => {
+    const dominantRgb = getDominantColor(imageEl.current!);
+    const dominant = dominantRgb.join(",");
+    const text = getTextColor(dominantRgb);
+    setColors({
+      dominant,
+      text,
+    });
+  };
 
   return (
     <div className="metadata">
@@ -36,6 +40,7 @@ const Tag: React.FC<MetaDataProps> = ({
             alt={`${name} - ${artists[0].name}`}
             ref={imageEl}
             onLoad={handleImageLoad}
+            crossOrigin={"anonymous"}
           />
         </div>
         <div className="metadata__tittle">
@@ -54,13 +59,18 @@ const Tag: React.FC<MetaDataProps> = ({
           </p>
           <p className="text-muted">{durationText}</p>
           <div className="button-wrapper">
-            <button
-              style={{backgroundColor: colors}}      
-              className="btn btn-primary"
-              onClick={handleDownload}
-            >
-              Download lyrics
-            </button>
+            {colors && (
+              <button
+                style={{
+                  backgroundColor: `rgb(${colors.dominant})`,
+                  color: colors.text,
+                }}
+                className="btn btn-primary"
+                onClick={handleDownload}
+              >
+                Download lyric
+              </button>
+            )}
           </div>
         </div>
       </div>
