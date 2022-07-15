@@ -53,24 +53,27 @@ const App: React.FC = () => {
       const data = (await api.get("/search", { params: { name: criteria } }))
         .data;
 
-      setTagState(data);
+      // i hate this timeout but the api have a rate limit per sercond so... 
+      setTimeout(async () => {
+        setTagState(data);
 
-      const lyrics: SongLyrics[] = (
-        await api.get("/lyrics", {
-          params: { trackId: data.id, format: "json" },
-        })
-      ).data;
+        const lyrics: SongLyrics[] = (
+          await api.get("/lyrics", {
+            params: { trackId: data.id, format: "json" },
+          })
+        ).data;
 
-      if (lyrics && lyrics.length > 0) {
-        setFound(true);
+        if (lyrics && lyrics.length > 0) {
+          setFound(true);
 
-        const songMetaData: SongData = {
-          ...data,
-          lyrics,
-        };
+          const songMetaData: SongData = {
+            ...data,
+            lyrics,
+          };
 
-        setSongData(songMetaData);
-      }
+          setSongData(songMetaData);
+        }
+      }, 300);
     } catch (err) {
       setFound(true);
       setHasError(true);

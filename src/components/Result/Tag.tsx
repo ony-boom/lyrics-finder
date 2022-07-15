@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from "react";
 import { MetaDataProps } from "../../types";
-import Button from "../Button";
 import Bio from "./Bio";
+import getVibrant from "../../helpers/colors";
 
 const Tag: React.FC<MetaDataProps> = ({
   name,
@@ -9,18 +9,34 @@ const Tag: React.FC<MetaDataProps> = ({
   durationText,
   album,
 }) => {
-  const cover = album.cover[album.cover.length - 1] || album.cover[0];
+  const imageEl = React.useRef<HTMLImageElement>(null);
+  const [colors, setColors] = React.useState("");
 
+  const cover = album.cover[album.cover.length - 1] || album.cover[0];
   const artistName = artists[0].name;
 
   const handleDownload: MouseEventHandler<HTMLButtonElement> = async () => {
     console.log("downloading");
   };
+
+  const handleImageLoad = async () => {
+    const vibrantColor = await getVibrant(imageEl.current!);
+    if (vibrantColor) {
+      setColors(vibrantColor);
+    }
+  }
+
+
   return (
     <div className="metadata">
       <div className="metadata--wrapper">
         <div className="metadata__cover">
-          <img src={cover.url} alt={`${name} - ${artists[0].name}`} />
+          <img
+            src={cover.url}
+            alt={`${name} - ${artists[0].name}`}
+            ref={imageEl}
+            onLoad={handleImageLoad}
+          />
         </div>
         <div className="metadata__tittle">
           <h2 className="heading-secondary">{name}</h2>
@@ -37,13 +53,15 @@ const Tag: React.FC<MetaDataProps> = ({
             })}
           </p>
           <p className="text-muted">{durationText}</p>
-
-          <Button
-            disabled={false}
-            text={"Download Lyrics"}
-            type={"primary"}
-            eventHandler={handleDownload}
-          />
+          <div className="button-wrapper">
+            <button
+              style={{backgroundColor: colors}}      
+              className="btn btn-primary"
+              onClick={handleDownload}
+            >
+              Download lyrics
+            </button>
+          </div>
         </div>
       </div>
       <Bio artistName={artistName} />

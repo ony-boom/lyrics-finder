@@ -44,7 +44,7 @@ const SearchInputBox: React.FC<SearchProps> = ({ found, clicked }) => {
           type="text"
           id="search"
           name="search"
-          placeholder="Song name"
+          placeholder="eg: daniel powter bad day"
           value={criteria}
           onChange={inputChangeHandler}
         />
