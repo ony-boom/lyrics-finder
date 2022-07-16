@@ -23,14 +23,10 @@ const Bio: React.FC<{ artistName: string }> = ({ artistName }) => {
     <div className="bio">
       <h2 className="bio__heading">About {artistName}</h2>
       <ErrorBoundary errMessage={`Can't get info about ${artistName} 😵😭`}>
-        {bio ? (
-          <p
-            className="simple-text"
-            dangerouslySetInnerHTML={{ __html: bio }}
-          ></p>
-        ) : (
-          <p className="text-muted">{`Getting ${artistName} bio... 🚀`}</p>
-        )}
+        <p
+          className="simple-text"
+          dangerouslySetInnerHTML={{ __html: bio }}
+        ></p>
       </ErrorBoundary>
     </div>
   );

@@ -15,7 +15,7 @@ const DownloadButton: React.FC<{
         color: colors.text,
         display: "grid",
         placeItems: "center",
-        textDecoration: "none"
+        textDecoration: "none",
       }}
       className="btn btn-primary"
       onClick={handleDownload}
@@ -39,7 +39,6 @@ const Tag: React.FC<MetaDataProps> = ({
   }>();
   const [lrc, setLrc] = React.useState<Blob>();
   const [getLrcError, setGetLrcError] = React.useState<boolean>();
-
   const cover = album.cover[album.cover.length - 1] || album.cover[0];
   const artistName = artists[0].name;
 
@@ -76,8 +75,8 @@ const Tag: React.FC<MetaDataProps> = ({
       } catch (err) {
         setGetLrcError(true);
       }
-    }, 3000);
-  }, []);
+    }, 1000);
+  }, [artistName, lrc]);
 
   return (
     <div className="metadata">
@@ -107,13 +106,13 @@ const Tag: React.FC<MetaDataProps> = ({
           </p>
           <p className="text-muted">{durationText}</p>
           <div className="button-wrapper">
-            {lrc && colors && !getLrcError ? (
+            {lrc && colors ? (
               <DownloadButton colors={colors} handleDownload={handleDownload} />
             ) : (
               <button className="btn" disabled>
-                  {
-                    !getLrcError ? "Making .lrc file..." : "Can't download Lyrics"
-                }
+                {!lrc && !getLrcError
+                  ? "Making .lrc file..."
+                  : getLrcError && "Can't download Lyrics"}
               </button>
             )}
           </div>
@@ -124,4 +123,4 @@ const Tag: React.FC<MetaDataProps> = ({
   );
 };
 
-export default Tag;
+export default React.memo(Tag);

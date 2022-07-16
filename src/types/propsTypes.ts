@@ -28,7 +28,12 @@ interface ResultProps {
 type MetaDataProps = Omit<
   SongData,
   "status" | "durationMs" | "shareUrl" | "type" | "lyrics"
->;
+  >;
+
+// interface PageTypes {
+//   lyricsPage: React.LegacyRef<HTMLDivElement>,
+//   infoPage: React.LegacyRef<HTMLDivElement>,
+// }
 
 export type {
   ButtonProps,
@@ -36,4 +41,5 @@ export type {
   ResultProps,
   SearchProps,
   MetaDataProps,
+  // PageTypes as Pagetypes
 };

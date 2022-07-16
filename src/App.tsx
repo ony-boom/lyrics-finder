@@ -2,6 +2,7 @@ import React, { ChangeEventHandler, MouseEventHandler } from "react";
 import Search from "./components/Search";
 import Result from "./components/Result";
 import Error from "./components/Error";
+import Paginate from "./components/Paginate";
 
 //api
 import api from "./api/api";
@@ -54,7 +55,7 @@ const App: React.FC = () => {
       const data = (await api.get("/search", { params: { name: criteria } }))
         .data;
 
-      // i hate this timeout but the api have a rate limit per sercond so... 
+      // i hate this timeout but the api have a rate limit per sercond so...
       setTimeout(async () => {
         setTagState(data);
 
@@ -76,8 +77,8 @@ const App: React.FC = () => {
         }
       }, 300);
     } catch (err) {
-      setFound(true);
       setHasError(true);
+      setFound(true);
     }
   };
 
@@ -86,7 +87,7 @@ const App: React.FC = () => {
       resultComponentRef.current?.scrollIntoView();
     }
     setSearchBtnClick(false);
-    setFound(false);
+    // setFound(false);
   }, [found]);
 
   // Value for the context
@@ -100,7 +101,16 @@ const App: React.FC = () => {
     <div className="row">
       <SearchContext.Provider value={contextValue}>
         <Search found={found} clicked={searchBtnClick} />
-        {tag && songData && <Result lyrics={songData.lyrics} tag={tag} resultRef={resultComponentRef} />}
+        {tag && songData && (
+          <>
+            <Paginate />
+            <Result
+              lyrics={songData.lyrics}
+              tag={tag}
+              resultRef={resultComponentRef}
+            />
+          </>
+        )}
         {hasError && <Error />}
       </SearchContext.Provider>
     </div>

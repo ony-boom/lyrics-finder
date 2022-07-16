@@ -19,13 +19,15 @@ const SearchInputBox: React.FC<SearchProps> = ({ found, clicked }) => {
     setIsActive(criteria.length > 0);
   }, [criteria]);
 
-  let buttonText = "search"
+  let buttonText = "search";
   let buttonIsHidden = true;
-  
+
   if (!found && clicked) {
-    buttonText = "searching..."
+    buttonText = "searching...";
+  } else if (found && !clicked) {
+    buttonText = "search";
   } else {
-    buttonText = "search"
+    buttonText = "search";
   }
 
   if (isActive && !clicked) {

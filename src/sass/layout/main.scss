@@ -12,7 +12,10 @@
 
 .Search {
   width: max-content;
-
+  @include media(second-break) {
+    width: 100%;
+    max-width: 100%;
+  }
   .search-box {
     gap: 4%;
     width: 100%;
@@ -38,7 +41,6 @@
       background-color: $color-white-300;
       @include media(second-break) {
         width: 100%;
-        max-width: 100%;
       }
       label {
         position: absolute;
@@ -94,6 +96,7 @@
 
   @include media(second-break) {
     margin-top: 2.4rem;
+    position: relative;
   }
 }
 
@@ -193,5 +196,18 @@
 
   &__heading {
     margin-bottom: 1.6rem;
+  }
+}
+
+.paginate {
+  display: none;
+
+  @include media(second-break) {
+    display: flex;
+    margin: 2.4rem 0;
+    display: flex;
+    font-size: 1.4rem;
+    color: $color-dark-300;
+    justify-content: space-between;
   }
 }

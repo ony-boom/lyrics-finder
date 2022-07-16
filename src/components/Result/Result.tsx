@@ -5,11 +5,16 @@ import Tag from "./Tag";
 
 const Result: React.FC<ResultProps> = ({ lyrics, tag, resultRef }) => {
   return (
-    <div className="result-output" ref={resultRef as React.LegacyRef<HTMLDivElement>}>
-      <Lyrics lyrics={lyrics} />
-      <Tag {...tag} />
+    <div
+      className="result-output"
+      ref={resultRef as React.LegacyRef<HTMLDivElement>}
+    >
+      <Lyrics
+        lyrics={lyrics}
+      />
+      <Tag {...tag}/>
     </div>
   );
 };
 
-export default Result;
+export default React.memo(Result);
