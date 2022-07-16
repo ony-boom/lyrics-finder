@@ -27,6 +27,7 @@
     &__input {
       gap: 12px;
       width: 26rem;
+      display: block;
       padding: 1.2rem;
       font-size: 1.6rem;
       min-height: 4.2rem;
@@ -35,7 +36,10 @@
       color: $color-dark-300;
       border-radius: inherit;
       background-color: $color-white-300;
-
+      @include media(second-break) {
+        width: 100%;
+        max-width: 100%;
+      }
       label {
         position: absolute;
         left: 2rem;
@@ -71,6 +75,26 @@
   padding-inline: 1.2rem;
   background-color: $color-white-200;
   box-shadow: 0px 8px 10px #57606f23;
+
+  @include media(first-break) {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0;
+    gap: 0;
+
+    & > * {
+      flex-basis: 100%;
+      flex-grow: 1;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      scroll-behavior: smooth;
+      padding: 0 1.8rem;
+    }
+  }
+
+  @include media(second-break) {
+    margin-top: 2.4rem;
+  }
 }
 
 .lyrics {
@@ -83,19 +107,32 @@
   resize: horizontal;
   border-radius: inherit;
   background-color: $color-white-300;
+
+  @include media(first-break) {
+    resize: none;
+    min-width: 28rem;
+    background-color: transparent;
+  }
 }
 
 .metadata {
   height: 95%;
   padding-block: 1.2rem;
   align-self: flex-start;
-
+  @include media(second-break) {
+    overflow: auto;
+  }
   &__cover {
     overflow: hidden;
-    height: 18rem;
+    min-height: 18rem;
     max-width: 18rem;
     border-radius: 8px;
     box-shadow: 0px 6px 8px #57606f23;
+
+    @include media(second-break) {
+      max-width: 100%;
+      min-height: auto;
+    }
 
     &__title {
       line-height: 160%;
@@ -110,12 +147,22 @@
 
   .button-wrapper {
     margin-top: 1.2rem;
+
+    @include media(second-break) {
+      display: block;
+      width: 100%;
+    }
   }
 }
 
 .metadata--wrapper {
   gap: 3.2rem;
   display: flex;
+
+  @include media(second-break) {
+    display: block;
+    gap: 5%;
+  }
 }
 
 .error {
@@ -134,6 +181,15 @@
   text-align: justify;
   line-height: 160%;
 
+  @include media(first-break) {
+    width: 100%;
+  }
+
+  @include media(second-break) {
+    height: auto;
+    text-align: left;
+    overflow: hidden;
+  }
 
   &__heading {
     margin-bottom: 1.6rem;

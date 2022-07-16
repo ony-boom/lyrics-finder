@@ -21,12 +21,13 @@ interface SearchProps {
 
 interface ResultProps {
   lyrics: SongLyrics[],
-  tag: MetaDataProps
+  tag: MetaDataProps,
+  resultRef: React.MutableRefObject<HTMLDivElement | undefined>
 }
 
 type MetaDataProps = Omit<
   SongData,
-  "id" | "status" | "durationMs" | "shareUrl" | "type" | "lyrics"
+  "status" | "durationMs" | "shareUrl" | "type" | "lyrics"
 >;
 
 export type {

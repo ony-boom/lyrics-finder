@@ -42,7 +42,6 @@ function rgbToHex(r: number, g: number, b: number) {
 
 export function getTextColor(bgColor: number[]) {
   const bgColorHex = rgbToHex(bgColor[0], bgColor[1], bgColor[2]);
-  console.log(bgColorHex);
 
   const whiteContrast = getContrast(bgColorHex, "#ffffff");
   const blackContrast = getContrast(bgColorHex, "#282c33");

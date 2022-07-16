@@ -2,8 +2,31 @@ import React, { MouseEventHandler } from "react";
 import { MetaDataProps } from "../../types";
 import Bio from "./Bio";
 import getDominantColor, { getTextColor } from "../../helpers/colors";
+import api from "../../api/api";
+
+const DownloadButton: React.FC<{
+  colors: { dominant: string; text: string };
+  handleDownload: MouseEventHandler<HTMLAnchorElement>;
+}> = ({ colors, handleDownload }) => {
+  return (
+    <a
+      style={{
+        backgroundColor: `rgb(${colors.dominant})`,
+        color: colors.text,
+        display: "grid",
+        placeItems: "center",
+        textDecoration: "none"
+      }}
+      className="btn btn-primary"
+      onClick={handleDownload}
+    >
+      Download lyrics
+    </a>
+  );
+};
 
 const Tag: React.FC<MetaDataProps> = ({
+  id,
   name,
   artists,
   durationText,
@@ -14,11 +37,20 @@ const Tag: React.FC<MetaDataProps> = ({
     dominant: string;
     text: string;
   }>();
+  const [lrc, setLrc] = React.useState<Blob>();
+  const [getLrcError, setGetLrcError] = React.useState<boolean>();
+
   const cover = album.cover[album.cover.length - 1] || album.cover[0];
   const artistName = artists[0].name;
 
-  const handleDownload: MouseEventHandler<HTMLButtonElement> = async () => {
-    console.log("downloading");
+  const handleDownload: MouseEventHandler<HTMLAnchorElement> = async (
+    event
+  ) => {
+    const btn = event.target as HTMLAnchorElement;
+    if (lrc) {
+      btn.href = URL.createObjectURL(lrc);
+      btn.download = artistName + " - " + name + ".lrc";
+    }
   };
 
   const handleImageLoad = () => {
@@ -30,6 +62,22 @@ const Tag: React.FC<MetaDataProps> = ({
       text,
     });
   };
+
+  React.useEffect(() => {
+    setTimeout(async () => {
+      try {
+        const res = await api.get("/lyrics", { params: { trackId: id } });
+        const lyrics = res.data;
+
+        const lrcFile = new Blob([lyrics], {
+          type: "text/plain",
+        });
+        setLrc(lrcFile);
+      } catch (err) {
+        setGetLrcError(true);
+      }
+    }, 3000);
+  }, []);
 
   return (
     <div className="metadata">
@@ -59,16 +107,13 @@ const Tag: React.FC<MetaDataProps> = ({
           </p>
           <p className="text-muted">{durationText}</p>
           <div className="button-wrapper">
-            {colors && (
-              <button
-                style={{
-                  backgroundColor: `rgb(${colors.dominant})`,
-                  color: colors.text,
-                }}
-                className="btn btn-primary"
-                onClick={handleDownload}
-              >
-                Download lyric
+            {lrc && colors && !getLrcError ? (
+              <DownloadButton colors={colors} handleDownload={handleDownload} />
+            ) : (
+              <button className="btn" disabled>
+                  {
+                    !getLrcError ? "Making .lrc file..." : "Can't download Lyrics"
+                }
               </button>
             )}
           </div>

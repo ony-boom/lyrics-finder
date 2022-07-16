@@ -21,6 +21,8 @@ const App: React.FC = () => {
   const [found, setFound] = React.useState(false);
   const [hasError, setHasError] = React.useState(false);
 
+  const resultComponentRef = React.useRef<HTMLDivElement>();
+
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setCriteria(event.target.value);
   };
@@ -34,7 +36,6 @@ const App: React.FC = () => {
       const allMetaData: any = { ...data };
 
       const omittedProps = [
-        "id",
         "status",
         "durationMs",
         "shareUrl",
@@ -81,6 +82,9 @@ const App: React.FC = () => {
   };
 
   React.useEffect(() => {
+    if (found) {
+      resultComponentRef.current?.scrollIntoView();
+    }
     setSearchBtnClick(false);
     setFound(false);
   }, [found]);
@@ -96,7 +100,7 @@ const App: React.FC = () => {
     <div className="row">
       <SearchContext.Provider value={contextValue}>
         <Search found={found} clicked={searchBtnClick} />
-        {tag && songData && <Result lyrics={songData.lyrics} tag={tag} />}
+        {tag && songData && <Result lyrics={songData.lyrics} tag={tag} resultRef={resultComponentRef} />}
         {hasError && <Error />}
       </SearchContext.Provider>
     </div>

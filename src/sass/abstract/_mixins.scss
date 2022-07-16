@@ -1,0 +1,13 @@
+@mixin media($break-point) {
+  @if $break-point == first-break {
+    @media only screen and (max-width: 52em) {
+      @content;
+    }
+  }
+
+  @if $break-point == second-break {
+    @media only screen and (max-width: 36em) {
+      @content;
+    }
+  }
+}

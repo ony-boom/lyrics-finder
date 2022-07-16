@@ -12,7 +12,9 @@
   border-radius: 8px;
   font-family: inherit;
   transition: all .3s;
-
+  @include media(second-break) {
+    width: 100%;
+  }
   &:disabled {
     cursor: default;
     opacity: .8;
