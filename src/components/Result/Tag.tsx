@@ -76,7 +76,7 @@ const Tag: React.FC<MetaDataProps> = ({
         setGetLrcError(true);
       }
     }, 1000);
-  }, [artistName, lrc]);
+  }, [artistName]);
 
   return (
     <div className="metadata">

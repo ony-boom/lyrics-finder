@@ -82,12 +82,10 @@ const App: React.FC = () => {
     }
   };
 
+ 
   React.useEffect(() => {
-    if (found) {
-      resultComponentRef.current?.scrollIntoView();
-    }
     setSearchBtnClick(false);
-    // setFound(false);
+    setFound(false);
   }, [found]);
 
   // Value for the context

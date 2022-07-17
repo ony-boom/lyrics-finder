@@ -30,7 +30,7 @@ export class ErrorBoundary extends Component<Prop, State> {
 }
 
 const Error: React.FC = () => {
-  return <p className="error">Something went wrong 😵, sorry 😭</p>;
+  return <p className="error">Something went wrong 😵, sorry 😭, you can try again</p>;
 };
 
 export default Error;
